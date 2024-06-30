@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:plonde/models/song.dart';
 
@@ -17,18 +18,29 @@ class _NewSongFormState extends State<NewSongForm> {
   String artistName = '';
   String albumName = '';
   String albumArtURI = '';
+  TextEditingController audioURIController = TextEditingController();
+  AudioUriType audioUriType = AudioUriType.file;
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       Song song = Song(
-          title: songName,
-          artist: artistName,
-          album: albumName,
-          albumArtUri: albumArtURI);
+        title: songName,
+        artist: artistName,
+        album: albumName,
+        albumArtUri: albumArtURI,
+        audioUri: audioURIController.text,
+        audioUriType: audioUriType,
+      );
       widget.onFormSubmitted(song);
       Navigator.of(context).pop();
     }
+  }
+
+  @override
+  void dispose() {
+    audioURIController.dispose();
+    super.dispose();
   }
 
   @override
@@ -36,6 +48,7 @@ class _NewSongFormState extends State<NewSongForm> {
     return Form(
       key: _formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
             autofocus: true,
@@ -76,8 +89,7 @@ class _NewSongFormState extends State<NewSongForm> {
           const SizedBox(height: 25),
           TextFormField(
             decoration: const InputDecoration(labelText: 'Album Art URI'),
-            textInputAction: TextInputAction.done,
-            onFieldSubmitted: (value) => _submitForm(),
+            textInputAction: TextInputAction.next,
             onSaved: (value) => albumArtURI = value!,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -85,6 +97,84 @@ class _NewSongFormState extends State<NewSongForm> {
               }
               return null;
             },
+          ),
+          const SizedBox(height: 25),
+          SizedBox(
+            width: 150,
+            child: DropdownButtonFormField(
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                labelText: "Audio URI Type",
+              ),
+              value: audioUriType,
+              items: const [
+                DropdownMenuItem(
+                  value: AudioUriType.file,
+                  child: Row(
+                    children: [
+                      Icon(Icons.folder),
+                      SizedBox(width: 15),
+                      Text('File'),
+                    ],
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: AudioUriType.network,
+                  child: Row(
+                    children: [
+                      Icon(Icons.wifi),
+                      SizedBox(width: 15),
+                      Text('Network'),
+                    ],
+                  ),
+                ),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  audioUriType = value!;
+                });
+              },
+              onSaved: (newValue) => audioUriType = newValue!,
+            ),
+          ),
+          const SizedBox(height: 25),
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: audioUriType == AudioUriType.file
+                        ? 'Audio File Path'
+                        : 'Audio URL',
+                  ),
+                  textInputAction: TextInputAction.done,
+                  onFieldSubmitted: (value) => _submitForm(),
+                  controller: audioURIController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an audio URI';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              if (audioUriType != AudioUriType.network)
+                IconButton(
+                  onPressed: () async {
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles(
+                      type: FileType.audio,
+                      allowMultiple: false,
+                    );
+                    if (result != null) {
+                      setState(() {
+                        audioURIController.text = result.files.single.path!;
+                      });
+                    }
+                  },
+                  icon: const Icon(Icons.folder_open),
+                ),
+            ],
           ),
           const SizedBox(height: 75),
           Row(

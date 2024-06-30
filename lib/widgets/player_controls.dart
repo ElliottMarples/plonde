@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:plonde/providers/audio_provider.dart';
 
-class PlayerControls extends StatefulWidget {
+class PlayerControls extends ConsumerStatefulWidget {
   const PlayerControls({super.key});
 
   @override
-  State<PlayerControls> createState() => _PlayerControlsState();
+  ConsumerState<PlayerControls> createState() => _PlayerControlsState();
 }
 
-class _PlayerControlsState extends State<PlayerControls> {
-  bool _isPaused = false;
-
+class _PlayerControlsState extends ConsumerState<PlayerControls> {
   @override
   Widget build(BuildContext context) {
+    bool isPlaying = ref.watch(audioProvider).playing;
     return Column(
       children: [
         SizedBox(
@@ -52,13 +53,15 @@ class _PlayerControlsState extends State<PlayerControls> {
                 IconButton(
                   onPressed: () {
                     setState(() {
-                      _isPaused = !_isPaused;
+                      ref.read(audioProvider.notifier).playOrPause();
                     });
                   },
                   style: IconButton.styleFrom(
                     iconSize: 64,
                   ),
-                  icon: Icon(_isPaused ? Icons.pause : Icons.play_arrow),
+                  icon: Icon(
+                    isPlaying ? Icons.pause : Icons.play_arrow,
+                  ),
                 ),
                 const SizedBox(width: 6),
                 IconButton(
