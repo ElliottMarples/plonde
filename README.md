@@ -1,3 +1,3 @@
 # plonde
 
-A new Flutter project.
+My new local file streaming service (it doesn't work as of yet).
