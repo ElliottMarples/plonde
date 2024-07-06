@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:plonde/models/playlist.dart';
-import 'package:plonde/screens/update_song.dart';
+import 'package:plonde/screens/update_song_screen.dart';
 import 'package:plonde/widgets/playlist_list.dart';
 import 'package:plonde/providers/playlist_provider.dart';
 
