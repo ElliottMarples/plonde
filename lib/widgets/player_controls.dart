@@ -52,9 +52,7 @@ class _PlayerControlsState extends ConsumerState<PlayerControls> {
                 ),
                 IconButton(
                   onPressed: () {
-                    setState(() {
-                      ref.read(audioProvider.notifier).playOrPause();
-                    });
+                    ref.read(audioProvider.notifier).playOrPause();
                   },
                   style: IconButton.styleFrom(
                     iconSize: 64,

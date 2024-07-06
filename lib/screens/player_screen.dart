@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plonde/screens/playlists.dart';
+import 'package:plonde/screens/playlists_screen.dart';
 import 'package:plonde/widgets/player_controls.dart';
 
 class PlayerScreen extends StatefulWidget {

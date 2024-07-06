@@ -1,3 +1,4 @@
+import 'package:plonde/models/playlist.dart';
 import 'package:plonde/models/song.dart';
 
 final List<Song> storedSongs = [
@@ -47,4 +48,17 @@ final List<Song> storedSongs = [
         '/data/user/0/com.example.plonde/cache/file_picker/1719770032899/soundcloud_300720709_audio.mp3',
     audioUriType: AudioUriType.file,
   ),
+];
+
+final List<Playlist> storedPlaylists = [
+  Playlist(
+    name: 'GSR',
+    coverArtUri:
+        'https://i2o.scdn.co/image/ab67706c0000cfa39d52b7d853c32ae308b2cafb',
+    songs: [
+      storedSongs[0],
+      storedSongs[2],
+      storedSongs[4],
+    ],
+  )
 ];

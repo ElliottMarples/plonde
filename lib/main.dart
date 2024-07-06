@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:plonde/screens/player.dart';
+import 'package:plonde/screens/player_screen.dart';
 import 'package:plonde/shared/themes/dark.dart';
 
 void main() {
