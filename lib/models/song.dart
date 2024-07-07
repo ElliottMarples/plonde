@@ -11,16 +11,16 @@ class Song {
   final String id;
   final String title;
   final String artist;
-  final String album;
-  final String albumArtUri;
+  final String? album;
+  final String? albumArtUri;
   final String audioUri;
   final AudioUriType audioUriType;
 
   Song({
     required this.title,
     required this.artist,
-    required this.album,
-    required this.albumArtUri,
+    this.album,
+    this.albumArtUri,
     required this.audioUri,
     required this.audioUriType,
   }) : id = uuidGenerator.v4();

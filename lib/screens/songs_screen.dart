@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:plonde/models/playlist.dart';
 import 'package:plonde/models/song.dart';
 import 'package:plonde/providers/audio_provider.dart';
+import 'package:plonde/providers/playlist_provider.dart';
 import 'package:plonde/providers/song_provider.dart';
 import 'package:plonde/util/functions.dart';
-import 'package:plonde/widgets/song_list.dart';
+import 'package:plonde/widgets/playlist/pick_playlist_sheet.dart';
+import 'package:plonde/widgets/song/song_list.dart';
 import 'package:provider/provider.dart';
 
 class SongsScreen extends ConsumerWidget {
@@ -33,6 +36,14 @@ class SongsScreen extends ConsumerWidget {
           final audioProvider = context.read<AudioNotifer>();
           audioProvider.setSongQueue([song]);
           audioProvider.playSong(song);
+        },
+        onAddQueueTap: (song) => context.read<AudioNotifer>().enqueueSong(song),
+        onPlaylistAddTap: (song) async {
+          Playlist playlist = await showModalBottomSheet(
+            context: context,
+            builder: (context) => const PickPlaylistSheet(),
+          );
+          ref.read(playlistProvider.notifier).addSongToPlaylist(playlist, song);
         },
       ),
     );

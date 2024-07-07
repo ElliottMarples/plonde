@@ -23,7 +23,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      const QueueScreen(),
+      QueueScreen(pageController: _pageController),
       PlayerScreen(pageController: _pageController),
       LibraryScreen(pageController: _pageController),
     ];

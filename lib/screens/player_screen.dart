@@ -73,9 +73,15 @@ class _PlayerScreenState extends State<PlayerScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            provider.currentSong?.title ?? '[Song Not Loaded]',
-                            style: theme.textTheme.titleLarge,
+                          SizedBox(
+                            width: 275,
+                            child: Text(
+                              provider.currentSong?.title ??
+                                  '[Song Not Loaded]',
+                              style: theme.textTheme.titleLarge,
+                              overflow: TextOverflow.fade,
+                              softWrap: false,
+                            ),
                           ),
                           Text(
                             provider.currentSong?.artist ?? '',
@@ -83,17 +89,18 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           ),
                         ],
                       ),
-                      IconButton(
-                        icon: Icon(
-                          _isLiked ? Icons.favorite : Icons.favorite_outline,
-                          color: theme.colorScheme.primary,
+                      if (provider.currentSong != null)
+                        IconButton(
+                          icon: Icon(
+                            _isLiked ? Icons.favorite : Icons.favorite_outline,
+                            color: theme.colorScheme.primary,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isLiked = !_isLiked;
+                            });
+                          },
                         ),
-                        onPressed: () {
-                          setState(() {
-                            _isLiked = !_isLiked;
-                          });
-                        },
-                      ),
                     ],
                   ),
                 ),

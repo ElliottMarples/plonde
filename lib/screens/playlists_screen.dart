@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:plonde/models/playlist.dart';
 import 'package:plonde/util/functions.dart';
-import 'package:plonde/widgets/playlist_list.dart';
+import 'package:plonde/widgets/playlist/playlist_list.dart';
 import 'package:plonde/providers/playlist_provider.dart';
 
 class PlaylistsScreen extends ConsumerWidget {

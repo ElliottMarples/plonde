@@ -27,8 +27,8 @@ class _NewSongFormState extends State<NewSongForm> {
       Song song = Song(
         title: songName,
         artist: artistName,
-        album: albumName,
-        albumArtUri: albumArtURI,
+        album: albumName.trim().isEmpty ? null : albumName,
+        albumArtUri: albumArtURI.trim().isEmpty ? null : albumArtURI,
         audioUri: audioURIController.text,
         audioUriType: audioUriType,
       );
@@ -79,24 +79,24 @@ class _NewSongFormState extends State<NewSongForm> {
             decoration: const InputDecoration(labelText: 'Album Name'),
             textInputAction: TextInputAction.next,
             onSaved: (value) => albumName = value!,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter an album name';
-              }
-              return null;
-            },
+            // validator: (value) {
+            //   if (value == null || value.isEmpty) {
+            //     return 'Please enter an album name';
+            //   }
+            //   return null;
+            // },
           ),
           const SizedBox(height: 25),
           TextFormField(
             decoration: const InputDecoration(labelText: 'Album Art URI'),
             textInputAction: TextInputAction.next,
             onSaved: (value) => albumArtURI = value!,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter an album art URI';
-              }
-              return null;
-            },
+            // validator: (value) {
+            //   if (value == null || value.isEmpty) {
+            //     return 'Please enter an album art URI';
+            //   }
+            //   return null;
+            // },
           ),
           const SizedBox(height: 25),
           SizedBox(

@@ -4,7 +4,7 @@ import 'package:plonde/models/playlist.dart';
 import 'package:plonde/providers/audio_provider.dart';
 import 'package:plonde/providers/playlist_provider.dart';
 import 'package:plonde/util/functions.dart';
-import 'package:plonde/widgets/song_list.dart';
+import 'package:plonde/widgets/song/song_list.dart';
 import 'package:provider/provider.dart';
 
 class PlaylistDetails extends ConsumerWidget {
@@ -33,9 +33,7 @@ class PlaylistDetails extends ConsumerWidget {
           audioProvider.setSongQueue([song]);
           audioProvider.playSong(song);
         },
-        onAddQueueTap: (song) {
-          context.read<AudioNotifer>().enqueueSong(song);
-        },
+        onAddQueueTap: (song) => context.read<AudioNotifer>().enqueueSong(song),
         onPlaylistRemoveTap: (song) {
           final index = playlist.songs.indexOf(song);
           ref

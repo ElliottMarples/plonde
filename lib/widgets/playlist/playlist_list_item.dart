@@ -4,9 +4,12 @@ import 'package:plonde/models/playlist.dart';
 import 'package:plonde/screens/playlist_details_screen.dart';
 
 class PlaylistListItem extends ConsumerWidget {
+  final void Function(Playlist playlist)? onPlaylistTap;
+
   const PlaylistListItem({
     super.key,
     required this.playlist,
+    this.onPlaylistTap,
   });
 
   final Playlist playlist;
@@ -17,15 +20,7 @@ class PlaylistListItem extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7.5),
       child: InkWell(
         borderRadius: BorderRadius.circular(5),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => PlaylistDetails(
-                playlistId: playlist.id,
-              ),
-            ),
-          );
-        },
+        onTap: () => onPlaylistTap?.call(playlist),
         child: ListTile(
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(5),

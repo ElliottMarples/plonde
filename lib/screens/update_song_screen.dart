@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:plonde/models/song.dart';
 import 'package:plonde/providers/song_provider.dart';
-import 'package:plonde/widgets/new_song_form.dart';
+import 'package:plonde/widgets/song/new_song_form.dart';
 
 class UpdateSongScreen extends ConsumerWidget {
   const UpdateSongScreen({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plonde/models/song.dart';
-import 'package:plonde/widgets/song_list_item.dart';
+import 'package:plonde/widgets/song/song_list_item.dart';
 
 class SongList extends StatelessWidget {
   final List<Song> songs;
@@ -8,6 +8,7 @@ class SongList extends StatelessWidget {
   final void Function(Song song)? onSongDismiss;
   final void Function(Song song)? onItemTap;
   final void Function(Song song)? onAddQueueTap;
+  final void Function(Song song)? onPlaylistAddTap;
   final void Function(Song song)? onPlaylistRemoveTap;
 
   const SongList({
@@ -17,6 +18,7 @@ class SongList extends StatelessWidget {
     this.onSongDismiss,
     this.onItemTap,
     this.onAddQueueTap,
+    this.onPlaylistAddTap,
     this.onPlaylistRemoveTap,
   });
 
@@ -47,6 +49,7 @@ class SongList extends StatelessWidget {
             isInPlaylist: isInPlaylist,
             onSongTap: onItemTap,
             onAddQueueTap: onAddQueueTap,
+            onPlaylistAddTap: onPlaylistAddTap,
             onPlaylistRemoveTap: onPlaylistRemoveTap,
           ),
         );

@@ -6,6 +6,7 @@ class SongListItem extends StatelessWidget {
   final bool isInPlaylist;
   final void Function(Song song)? onSongTap;
   final void Function(Song song)? onAddQueueTap;
+  final void Function(Song song)? onPlaylistAddTap;
   final void Function(Song song)? onPlaylistRemoveTap;
 
   const SongListItem({
@@ -14,6 +15,7 @@ class SongListItem extends StatelessWidget {
     this.isInPlaylist = false,
     this.onSongTap,
     this.onAddQueueTap,
+    this.onPlaylistAddTap,
     this.onPlaylistRemoveTap,
   });
 
@@ -27,11 +29,13 @@ class SongListItem extends StatelessWidget {
         child: ListTile(
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(5),
-            child: Image.network(
-              song.albumArtUri,
-              height: 48,
-              width: 48,
-            ),
+            child: song.albumArtUri == null
+                ? const SizedBox(height: 48, width: 48)
+                : Image.network(
+                    song.albumArtUri!,
+                    height: 48,
+                    width: 48,
+                  ),
           ),
           title: Text(song.title),
           subtitle: Text(song.artist),
@@ -56,6 +60,10 @@ class SongListItem extends StatelessWidget {
                       PopupMenuItem(
                         onTap: () => onAddQueueTap?.call(song),
                         child: const Text('Add to Queue'),
+                      ),
+                      PopupMenuItem(
+                        onTap: () => onPlaylistAddTap?.call(song),
+                        child: const Text('Add to Playlist'),
                       ),
                     ];
                   },

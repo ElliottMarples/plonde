@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:plonde/providers/audio_provider.dart';
+import 'package:plonde/screens/navigation_screen.dart';
 import 'package:provider/provider.dart';
 
 class QueueScreen extends StatelessWidget {
-  const QueueScreen({super.key});
+  final PageController pageController;
+
+  const QueueScreen({
+    super.key,
+    required this.pageController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +19,13 @@ class QueueScreen extends StatelessWidget {
         title: const Text('Queue'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              pageController.animateToPage(
+                Pages.player.index,
+                duration: const Duration(milliseconds: 256),
+                curve: Curves.easeInOut,
+              );
+            },
             icon: const Icon(Icons.arrow_forward),
           ),
         ],
@@ -25,11 +37,13 @@ class QueueScreen extends StatelessWidget {
           return ListTile(
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(5),
-              child: Image.network(
-                song.albumArtUri,
-                height: 48,
-                width: 48,
-              ),
+              child: song.albumArtUri == null
+                  ? const SizedBox(height: 48, width: 48)
+                  : Image.network(
+                      song.albumArtUri!,
+                      height: 48,
+                      width: 48,
+                    ),
             ),
             title: Text(song.title),
             subtitle: Text(song.artist),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plonde/models/playlist.dart';
-import 'package:plonde/widgets/playlist_list_item.dart';
+import 'package:plonde/screens/playlist_details_screen.dart';
+import 'package:plonde/widgets/playlist/playlist_list_item.dart';
 
 class PlaylistList extends StatelessWidget {
   final List<Playlist> playlists;
@@ -34,7 +35,18 @@ class PlaylistList extends StatelessWidget {
           ),
           direction: DismissDirection.endToStart,
           onDismissed: (direction) => onPlaylistDismiss(playlist),
-          child: PlaylistListItem(playlist: playlist),
+          child: PlaylistListItem(
+            playlist: playlist,
+            onPlaylistTap: (playlist) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => PlaylistDetails(
+                    playlistId: playlist.id,
+                  ),
+                ),
+              );
+            },
+          ),
         );
       },
     );
