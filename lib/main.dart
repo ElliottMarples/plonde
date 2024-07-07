@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:plonde/screens/player_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    hide ChangeNotifierProvider;
+import 'package:plonde/providers/audio_provider.dart';
+import 'package:plonde/screens/navigation_screen.dart';
 import 'package:plonde/shared/themes/dark.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    const ProviderScope(
-      child: MainApp(),
+    ProviderScope(
+      child: ChangeNotifierProvider(
+        create: (context) => AudioNotifer(),
+        child: const MainApp(),
+      ),
     ),
   );
 }
@@ -25,7 +31,7 @@ class _MainAppState extends State<MainApp> {
       theme: lightMode,
       darkTheme: darkMode,
       themeMode: ThemeMode.dark,
-      home: const PlayerScreen(),
+      home: const NavigationScreen(),
     );
   }
 }

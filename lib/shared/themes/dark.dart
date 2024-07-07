@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 final darkMode = ThemeData.dark(useMaterial3: true).copyWith(
   colorScheme: ColorScheme.fromSeed(
-    seedColor: const Color.fromARGB(255, 75, 73, 101),
+    seedColor: const Color.fromARGB(255, 156, 0, 109),
     brightness: Brightness.dark,
-  ),
+  ).copyWith(primary: const Color.fromARGB(255, 189, 61, 178)),
   textTheme: ThemeData.dark().textTheme.copyWith(
         titleLarge: ThemeData.dark().textTheme.titleLarge!.copyWith(
               fontSize: 24,

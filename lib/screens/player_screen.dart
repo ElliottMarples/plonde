@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:plonde/screens/playlists_screen.dart';
+import 'package:plonde/providers/audio_provider.dart';
+import 'package:plonde/screens/navigation_screen.dart';
 import 'package:plonde/widgets/player_controls.dart';
+import 'package:provider/provider.dart';
 
 class PlayerScreen extends StatefulWidget {
+  final PageController pageController;
   const PlayerScreen({
     super.key,
+    required this.pageController,
   });
 
   @override
@@ -17,72 +21,101 @@ class _PlayerScreenState extends State<PlayerScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final provider = context.watch<AudioNotifer>();
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => widget.pageController.animateToPage(
+            Pages.queue.index,
+            duration: const Duration(milliseconds: 256),
+            curve: Curves.easeInOut,
+          ),
+          icon: const Icon(Icons.queue_music),
+        ),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const PlaylistsScreen(),
-                ),
-              );
-            },
+            onPressed: () => widget.pageController.animateToPage(
+              Pages.playlist.index,
+              duration: const Duration(milliseconds: 256),
+              curve: Curves.easeInOut,
+            ),
             icon: const Icon(Icons.library_music),
           ),
         ],
-        title: const Text('Player Screen'),
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Image.network(
-                'https://picsum.photos/256',
-                height: 256,
-                width: 256,
+            Container(
+              height: 400,
+              width: 400,
+              padding: const EdgeInsets.all(8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Image.network(
+                  provider.currentSong?.albumArtUri ??
+                      'https://picsum.photos/512',
+                ),
               ),
             ),
             const SizedBox(height: 20),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 36),
-              width: 480,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 36),
+                  width: 480,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Song',
-                        style: theme.textTheme.titleLarge,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            provider.currentSong?.title ?? '[Song Not Loaded]',
+                            style: theme.textTheme.titleLarge,
+                          ),
+                          Text(
+                            provider.currentSong?.artist ?? '',
+                            style: theme.textTheme.titleMedium,
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Artist',
-                        style: theme.textTheme.titleMedium,
+                      IconButton(
+                        icon: Icon(
+                          _isLiked ? Icons.favorite : Icons.favorite_outline,
+                          color: theme.colorScheme.primary,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isLiked = !_isLiked;
+                          });
+                        },
                       ),
                     ],
                   ),
-                  IconButton(
-                    icon: Icon(
-                      _isLiked ? Icons.favorite : Icons.favorite_outline,
-                      color: theme.colorScheme.primary,
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: PlayerControls(
+                    isPlaying: provider.isPlaying,
+                    loopMode: provider.loopMode,
+                    position: provider.position,
+                    duration: provider.duration,
+                    onPlayTap: () => provider.playOrPause(),
+                    onLoopTap: () => provider.toggleLoop(),
+                    onSeek: (value) => provider.seekSong(
+                      Duration(
+                        milliseconds: value.toInt(),
+                      ),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _isLiked = !_isLiked;
-                      });
-                    },
-                  )
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: const PlayerControls(),
-            )
+            const SizedBox(height: 20),
           ],
         ),
       ),

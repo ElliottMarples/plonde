@@ -4,12 +4,14 @@ import 'package:plonde/widgets/song_list_item.dart';
 
 class SongList extends StatelessWidget {
   final List<Song> songs;
-  final void Function(Song song) onSongDismiss;
+  final void Function(Song song)? onSongDismiss;
+  final void Function(Song song)? onItemTap;
 
   const SongList({
     super.key,
     required this.songs,
-    required this.onSongDismiss,
+    this.onSongDismiss,
+    this.onItemTap,
   });
 
   @override
@@ -33,8 +35,11 @@ class SongList extends StatelessWidget {
             ),
           ),
           direction: DismissDirection.endToStart,
-          onDismissed: (direction) => onSongDismiss(song),
-          child: SongListItem(song: song),
+          onDismissed: (direction) => onSongDismiss?.call(song),
+          child: SongListItem(
+            song: song,
+            onTap: onItemTap,
+          ),
         );
       },
     );

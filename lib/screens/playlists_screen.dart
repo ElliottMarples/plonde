@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:plonde/models/playlist.dart';
+import 'package:plonde/screens/navigation_screen.dart';
 import 'package:plonde/screens/update_song_screen.dart';
 import 'package:plonde/widgets/playlist_list.dart';
 import 'package:plonde/providers/playlist_provider.dart';
 
 class PlaylistsScreen extends ConsumerWidget {
-  const PlaylistsScreen({super.key});
+  final PageController pageController;
+  const PlaylistsScreen({super.key, required this.pageController});
 
   void _deletePlaylist(Playlist playlist, BuildContext context, WidgetRef ref) {
     int index = ref.read(playlistProvider).indexOf(playlist);
@@ -28,6 +30,14 @@ class PlaylistsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => pageController.animateToPage(
+            Pages.player.index,
+            duration: const Duration(milliseconds: 256),
+            curve: Curves.easeInOut,
+          ),
+          icon: const Icon(Icons.arrow_back),
+        ),
         // backgroundColor: Colors.grey.shade900,
         title: const Text('Mixtapes'),
         actions: [

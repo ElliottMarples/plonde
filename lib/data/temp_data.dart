@@ -48,6 +48,16 @@ final List<Song> storedSongs = [
         '/data/user/0/com.example.plonde/cache/file_picker/1719770032899/soundcloud_300720709_audio.mp3',
     audioUriType: AudioUriType.file,
   ),
+  Song(
+    title: 'My Best Friend',
+    artist: 'Friedberg',
+    album: 'My Best Friend',
+    albumArtUri:
+        'https://i.scdn.co/image/ab67616d0000b2734d32f190a9775be8455f011c',
+    audioUri:
+        '/data/user/0/com.example.plonde/cache/file_picker/1720296545126/youtube_GfhBN6Bnk_4_audio.mp3',
+    audioUriType: AudioUriType.file,
+  ),
 ];
 
 final List<Playlist> storedPlaylists = [
@@ -59,6 +69,7 @@ final List<Playlist> storedPlaylists = [
       storedSongs[0],
       storedSongs[2],
       storedSongs[4],
+      storedSongs[5],
     ],
   )
 ];
