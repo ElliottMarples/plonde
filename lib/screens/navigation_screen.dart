@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:plonde/screens/library_screen.dart';
 import 'package:plonde/screens/player_screen.dart';
-import 'package:plonde/screens/playlists_screen.dart';
 import 'package:plonde/screens/queue_screen.dart';
 
 // ORDER DEPENDENT
 enum Pages {
   queue,
   player,
-  playlist,
+  library,
 }
 
 class NavigationScreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     final pages = [
       const QueueScreen(),
       PlayerScreen(pageController: _pageController),
-      PlaylistsScreen(pageController: _pageController),
+      LibraryScreen(pageController: _pageController),
     ];
     return Scaffold(
       body: PageView.builder(

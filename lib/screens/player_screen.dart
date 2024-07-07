@@ -35,7 +35,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
         actions: [
           IconButton(
             onPressed: () => widget.pageController.animateToPage(
-              Pages.playlist.index,
+              Pages.library.index,
               duration: const Duration(milliseconds: 256),
               curve: Curves.easeInOut,
             ),
