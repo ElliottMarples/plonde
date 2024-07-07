@@ -46,19 +46,19 @@ class AudioNotifer with ChangeNotifier {
     notifyListeners();
   }
 
-  void addSong(Song song) {
+  void enqueueSong(Song song) {
     _songQueue.add(song);
     notifyListeners();
   }
 
-  void removeSong(Song song) {
+  void dequeueSong(Song song) {
     _songQueue.remove(song);
     notifyListeners();
   }
 
-  void removeSongByIndex(int index) {
+  void dequeueSongByIndex(int index) {
     final song = _songQueue[index];
-    removeSong(song);
+    dequeueSong(song);
   }
 
   void playOrPause() async {

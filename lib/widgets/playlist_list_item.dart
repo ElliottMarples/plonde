@@ -20,7 +20,9 @@ class PlaylistListItem extends ConsumerWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => PlaylistDetails(playlist: playlist),
+              builder: (context) => PlaylistDetails(
+                playlistId: playlist.id,
+              ),
             ),
           );
         },

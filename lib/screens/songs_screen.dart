@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:plonde/models/song.dart';
 import 'package:plonde/providers/audio_provider.dart';
 import 'package:plonde/providers/song_provider.dart';
-import 'package:plonde/screens/update_song_screen.dart';
+import 'package:plonde/util/functions.dart';
 import 'package:plonde/widgets/song_list.dart';
 import 'package:provider/provider.dart';
 
@@ -13,15 +13,12 @@ class SongsScreen extends ConsumerWidget {
   void _deleteSong(Song song, BuildContext context, WidgetRef ref) {
     int index = ref.read(songProvider).indexOf(song);
     ref.read(songProvider.notifier).removeSong(song);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('${song.title} removed from library.'),
-      action: SnackBarAction(
-        label: 'UNDO',
-        onPressed: () {
-          ref.read(songProvider.notifier).insertSong(index, song);
-        },
-      ),
-    ));
+    // '${song.title} removed from library.'
+    showUndoSnackBar(
+      context,
+      '${song.title} removed from library.',
+      () => ref.read(songProvider.notifier).insertSong(index, song),
+    );
   }
 
   @override
