@@ -125,7 +125,6 @@ class AudioNotifer with ChangeNotifier {
   void skipPreviousSong() {
     if (position!.inSeconds >= const Duration(seconds: 10).inSeconds) {
       seekSong(Duration.zero);
-      print(duration);
     } else {
       _playPreviousSong();
     }
