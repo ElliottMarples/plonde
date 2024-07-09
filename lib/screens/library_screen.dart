@@ -71,12 +71,16 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     _selectedScreen = _LibraryScreen.playlists;
                   });
                 },
-                child: Text(
-                  'Mixtapes',
-                  style: theme.textTheme.titleMedium!.copyWith(
-                    color: _selectedScreen == _LibraryScreen.playlists
-                        ? theme.colorScheme.primaryFixedDim
-                        : null,
+                child: Container(
+                  width: 100,
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Mixtapes',
+                    style: theme.textTheme.titleMedium!.copyWith(
+                      color: _selectedScreen == _LibraryScreen.playlists
+                          ? theme.colorScheme.primaryFixedDim
+                          : null,
+                    ),
                   ),
                 ),
               ),
@@ -93,12 +97,16 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     _selectedScreen = _LibraryScreen.songs;
                   });
                 },
-                child: Text(
-                  'Tracks',
-                  style: theme.textTheme.titleMedium!.copyWith(
-                    color: _selectedScreen == _LibraryScreen.songs
-                        ? theme.colorScheme.primaryFixedDim
-                        : null,
+                child: Container(
+                  width: 100,
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Tracks',
+                    style: theme.textTheme.titleMedium!.copyWith(
+                      color: _selectedScreen == _LibraryScreen.songs
+                          ? theme.colorScheme.primaryFixedDim
+                          : null,
+                    ),
                   ),
                 ),
               ),
