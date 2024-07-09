@@ -4,6 +4,7 @@ import 'package:plonde/models/playlist.dart';
 import 'package:plonde/providers/audio_provider.dart';
 import 'package:plonde/providers/playlist_provider.dart';
 import 'package:plonde/util/functions.dart';
+import 'package:plonde/widgets/playlist/pick_playlist_sheet.dart';
 import 'package:plonde/widgets/song/song_list.dart';
 import 'package:provider/provider.dart';
 
@@ -91,6 +92,19 @@ class PlaylistDetails extends ConsumerWidget {
                       .read(playlistProvider.notifier)
                       .insertSongIntoPlaylist(playlist, index, song),
                 );
+              },
+              onPlaylistAddOtherTap: (song) async {
+                Playlist? newPlaylist = await showModalBottomSheet(
+                  context: context,
+                  builder: (context) => PickPlaylistSheet(
+                    playlistFilter: (p) => p.id != playlist.id,
+                  ),
+                );
+                if (newPlaylist != null) {
+                  ref
+                      .read(playlistProvider.notifier)
+                      .addSongToPlaylist(newPlaylist, song);
+                }
               },
             ),
           ),

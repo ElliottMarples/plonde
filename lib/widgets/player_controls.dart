@@ -5,6 +5,7 @@ import 'package:plonde/providers/audio_provider.dart';
 class PlayerControls extends StatelessWidget {
   final bool isPlaying;
   final LoopMode loopMode;
+  final bool isShuffled;
   final Duration? position;
   final Duration? duration;
   final void Function()? onPlayTap;
@@ -18,6 +19,7 @@ class PlayerControls extends StatelessWidget {
     super.key,
     required this.isPlaying,
     required this.loopMode,
+    required this.isShuffled,
     required this.position,
     required this.duration,
     this.onPlayTap,
@@ -63,6 +65,7 @@ class PlayerControls extends StatelessWidget {
             IconButton(
               onPressed: onShuffleTap,
               icon: const Icon(Icons.shuffle),
+              color: isShuffled ? theme.colorScheme.primary : null,
             ),
             Row(
               children: [

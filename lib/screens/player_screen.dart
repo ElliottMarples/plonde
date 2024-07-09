@@ -109,9 +109,13 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   child: PlayerControls(
                     isPlaying: provider.isPlaying,
                     loopMode: provider.loopMode,
+                    isShuffled: provider.isShuffled,
                     position: provider.position,
                     duration: provider.duration,
                     onPlayTap: () => provider.playOrPause(),
+                    onSkipNextTap: () => provider.skipNextSong(),
+                    onSkipPreviousTap: () => provider.skipPreviousSong(),
+                    onShuffleTap: () => provider.toggleShuffle(),
                     onLoopTap: () => provider.toggleLoop(),
                     onSeek: (value) => provider.seekSong(
                       Duration(

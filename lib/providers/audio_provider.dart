@@ -13,10 +13,12 @@ class AudioNotifer with ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
 
   List<Song> _songQueue = [];
+  List<Song> _unshuffledSongQueue = [];
   int _currentSongIndex = 0;
 
   bool _isPlaying = false;
   LoopMode _loopMode = LoopMode.none;
+  bool _isShuffled = false;
 
   AudioNotifer() {
     _audioPlayer.playerStateStream.listen((playerState) {
@@ -36,10 +38,16 @@ class AudioNotifer with ChangeNotifier {
   int get currentSongIndex => _currentSongIndex;
   Song? get currentSong =>
       _songQueue.isNotEmpty ? _songQueue[_currentSongIndex] : null;
+  Song? get nextSong => _songQueue.length > _currentSongIndex + 1
+      ? _songQueue[_currentSongIndex + 1]
+      : null;
+  Song? get previousSong =>
+      _currentSongIndex - 1 >= 0 ? _songQueue[_currentSongIndex - 1] : null;
   bool get isPlaying => _isPlaying;
   Duration? get position => _audioPlayer.position;
   Duration? get duration => _audioPlayer.duration;
   LoopMode get loopMode => _loopMode;
+  bool get isShuffled => _isShuffled;
 
   void setSongQueue(List<Song> songs) {
     _songQueue = songs;
@@ -92,17 +100,34 @@ class AudioNotifer with ChangeNotifier {
 
   void _playNextSong() {
     if (_loopMode == LoopMode.one) {
-      playSongByIndex(_currentSongIndex);
-    } else if (_currentSongIndex + 1 < _songQueue.length) {
-      playSongByIndex(_currentSongIndex + 1);
+      playSong(currentSong!);
+    } else if (nextSong != null) {
+      playSong(nextSong!);
     } else if (_loopMode == LoopMode.all) {
       playSongByIndex(0);
     }
   }
 
   void _playPreviousSong() {
-    if (_currentSongIndex - 1 >= 0) {
-      playSongByIndex(_currentSongIndex - 1);
+    if (previousSong != null) {
+      playSong(previousSong!);
+    }
+  }
+
+  void skipNextSong() {
+    if (_loopMode == LoopMode.none && nextSong == null && duration != null) {
+      seekSong(duration!);
+    } else {
+      _playNextSong();
+    }
+  }
+
+  void skipPreviousSong() {
+    if (position!.inSeconds >= const Duration(seconds: 10).inSeconds) {
+      seekSong(Duration.zero);
+      print(duration);
+    } else {
+      _playPreviousSong();
     }
   }
 
@@ -113,6 +138,24 @@ class AudioNotifer with ChangeNotifier {
       _loopMode = LoopMode.one;
     } else {
       _loopMode = LoopMode.none;
+    }
+    notifyListeners();
+  }
+
+  void toggleShuffle() {
+    final song = _songQueue[_currentSongIndex];
+    if (_isShuffled) {
+      _songQueue = List.from(_unshuffledSongQueue);
+      _unshuffledSongQueue.clear();
+      _currentSongIndex = _songQueue.indexOf(song);
+      _isShuffled = false;
+    } else {
+      final index = _songQueue.indexOf(song);
+      _unshuffledSongQueue = List.from(_songQueue);
+      _songQueue.remove(song);
+      _songQueue.shuffle();
+      _songQueue.insert(index, song);
+      _isShuffled = true;
     }
     notifyListeners();
   }

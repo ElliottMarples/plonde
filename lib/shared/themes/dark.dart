@@ -20,5 +20,3 @@ final darkMode = ThemeData.dark(useMaterial3: true).copyWith(
             ),
       ),
 );
-
-final lightMode = darkMode;

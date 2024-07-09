@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plonde/screens/navigation_screen.dart';
 import 'package:plonde/screens/playlists_screen.dart';
+import 'package:plonde/screens/settings_screen.dart';
 import 'package:plonde/screens/songs_screen.dart';
 import 'package:plonde/screens/update_song_screen.dart';
 
@@ -45,19 +46,26 @@ class _LibraryScreenState extends State<LibraryScreen> {
         //   _selectedScreen == _LibraryScreen.playlists ? 'Mixtapes' : 'Tracks',
         // ),
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 10),
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const UpdateSongScreen(),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.add),
-            ),
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const UpdateSongScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.add),
           ),
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SettingsScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.settings),
+          )
         ],
       ),
       body: Column(

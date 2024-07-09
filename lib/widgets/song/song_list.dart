@@ -10,6 +10,7 @@ class SongList extends StatelessWidget {
   final void Function(Song song)? onAddQueueTap;
   final void Function(Song song)? onPlaylistAddTap;
   final void Function(Song song)? onPlaylistRemoveTap;
+  final void Function(Song song)? onPlaylistAddOtherTap;
 
   const SongList({
     super.key,
@@ -20,6 +21,7 @@ class SongList extends StatelessWidget {
     this.onAddQueueTap,
     this.onPlaylistAddTap,
     this.onPlaylistRemoveTap,
+    this.onPlaylistAddOtherTap,
   });
 
   @override
@@ -51,6 +53,7 @@ class SongList extends StatelessWidget {
             onAddQueueTap: onAddQueueTap,
             onPlaylistAddTap: onPlaylistAddTap,
             onPlaylistRemoveTap: onPlaylistRemoveTap,
+            onPlaylistAddOtherTap: onPlaylistAddOtherTap,
           ),
         );
       },

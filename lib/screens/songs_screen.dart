@@ -39,11 +39,15 @@ class SongsScreen extends ConsumerWidget {
         },
         onAddQueueTap: (song) => context.read<AudioNotifer>().enqueueSong(song),
         onPlaylistAddTap: (song) async {
-          Playlist playlist = await showModalBottomSheet(
+          Playlist? playlist = await showModalBottomSheet(
             context: context,
             builder: (context) => const PickPlaylistSheet(),
           );
-          ref.read(playlistProvider.notifier).addSongToPlaylist(playlist, song);
+          if (playlist != null) {
+            ref
+                .read(playlistProvider.notifier)
+                .addSongToPlaylist(playlist, song);
+          }
         },
       ),
     );

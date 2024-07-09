@@ -8,6 +8,7 @@ class SongListItem extends StatelessWidget {
   final void Function(Song song)? onAddQueueTap;
   final void Function(Song song)? onPlaylistAddTap;
   final void Function(Song song)? onPlaylistRemoveTap;
+  final void Function(Song song)? onPlaylistAddOtherTap;
 
   const SongListItem({
     super.key,
@@ -17,6 +18,7 @@ class SongListItem extends StatelessWidget {
     this.onAddQueueTap,
     this.onPlaylistAddTap,
     this.onPlaylistRemoveTap,
+    this.onPlaylistAddOtherTap,
   });
 
   @override
@@ -49,7 +51,11 @@ class SongListItem extends StatelessWidget {
                       ),
                       PopupMenuItem(
                         onTap: () => onPlaylistRemoveTap?.call(song),
-                        child: const Text('Remove from Playlist'),
+                        child: const Text('Remove from Mixtape'),
+                      ),
+                      PopupMenuItem(
+                        onTap: () => onPlaylistAddOtherTap?.call(song),
+                        child: const Text('Add to other Mixtape'),
                       ),
                     ];
                   },
@@ -63,7 +69,7 @@ class SongListItem extends StatelessWidget {
                       ),
                       PopupMenuItem(
                         onTap: () => onPlaylistAddTap?.call(song),
-                        child: const Text('Add to Playlist'),
+                        child: const Text('Add to Mixtape'),
                       ),
                     ];
                   },

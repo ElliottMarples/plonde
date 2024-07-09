@@ -6,11 +6,13 @@ import 'package:plonde/widgets/playlist/playlist_list_item.dart';
 class PlaylistList extends StatelessWidget {
   final List<Playlist> playlists;
   final void Function(Playlist playlist) onPlaylistDismiss;
+  final bool showPlaylistOptions;
 
   const PlaylistList({
     super.key,
     required this.playlists,
     required this.onPlaylistDismiss,
+    this.showPlaylistOptions = true,
   });
 
   @override
@@ -37,6 +39,7 @@ class PlaylistList extends StatelessWidget {
           onDismissed: (direction) => onPlaylistDismiss(playlist),
           child: PlaylistListItem(
             playlist: playlist,
+            showOptions: showPlaylistOptions,
             onPlaylistTap: (playlist) {
               Navigator.of(context).push(
                 MaterialPageRoute(

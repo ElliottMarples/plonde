@@ -3,15 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:plonde/models/playlist.dart';
 
 class PlaylistListItem extends ConsumerWidget {
+  final Playlist playlist;
+  final bool showOptions;
   final void Function(Playlist playlist)? onPlaylistTap;
 
   const PlaylistListItem({
     super.key,
     required this.playlist,
+    this.showOptions = true,
     this.onPlaylistTap,
   });
-
-  final Playlist playlist;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,8 +31,27 @@ class PlaylistListItem extends ConsumerWidget {
             ),
           ),
           title: Text(playlist.name),
-          subtitle: Text('${playlist.length} Songs'),
-          trailing: const Icon(Icons.chevron_right),
+          subtitle: Text('${playlist.length} Tracks'),
+          trailing: showOptions
+              ? PopupMenuButton(
+                  itemBuilder: (context) {
+                    return [
+                      PopupMenuItem(
+                        onTap: () {},
+                        child: const Text('Play Mixtape'),
+                      ),
+                      PopupMenuItem(
+                        onTap: () {},
+                        child: const Text('Add Mixtape to Queue'),
+                      ),
+                      PopupMenuItem(
+                        onTap: () {},
+                        child: const Text('Add to Other Mixtape'),
+                      )
+                    ];
+                  },
+                )
+              : null,
         ),
       ),
     );
