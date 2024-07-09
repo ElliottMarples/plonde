@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:plonde/models/playlist.dart';
-import 'package:plonde/screens/playlist_details_screen.dart';
 
 class PlaylistListItem extends ConsumerWidget {
   final void Function(Playlist playlist)? onPlaylistTap;

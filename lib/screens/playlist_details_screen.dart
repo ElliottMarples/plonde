@@ -17,36 +17,84 @@ class PlaylistDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final playlistState = ref.watch(playlistProvider);
     Playlist playlist =
         playlistState.firstWhere((element) => element.id == playlistId);
     return Scaffold(
       appBar: AppBar(
-        title: Text(playlist.name),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
-      body: SongList(
-        songs: playlist.songs,
-        isInPlaylist: true,
-        onSongDismiss: (song) {},
-        onItemTap: (song) {
-          final audioProvider = context.read<AudioNotifer>();
-          audioProvider.setSongQueue([song]);
-          audioProvider.playSong(song);
-        },
-        onAddQueueTap: (song) => context.read<AudioNotifer>().enqueueSong(song),
-        onPlaylistRemoveTap: (song) {
-          final index = playlist.songs.indexOf(song);
-          ref
-              .read(playlistProvider.notifier)
-              .removeSongFromPlaylist(playlist, song);
-          showUndoSnackBar(
-            context,
-            '${song.title} removed from playlist.',
-            () => ref
-                .read(playlistProvider.notifier)
-                .insertSongIntoPlaylist(playlist, index, song),
-          );
-        },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(26, 0, 26, 13),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Image.network(
+                    playlist.coverArtUri,
+                    height: 144,
+                    width: 144,
+                  ),
+                ),
+                const SizedBox(width: 18),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        playlist.name,
+                        style: theme.textTheme.titleMedium,
+                      ),
+                      Text('${playlist.songs.length} Tracks'),
+                      Text(
+                        playlist.description,
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                          color: theme.colorScheme.onSurface.withAlpha(160),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: SongList(
+              songs: playlist.songs,
+              isInPlaylist: true,
+              onSongDismiss: (song) {},
+              onItemTap: (song) {
+                final audioProvider = context.read<AudioNotifer>();
+                audioProvider.setSongQueue([song]);
+                audioProvider.playSong(song);
+              },
+              onAddQueueTap: (song) =>
+                  context.read<AudioNotifer>().enqueueSong(song),
+              onPlaylistRemoveTap: (song) {
+                final index = playlist.songs.indexOf(song);
+                ref
+                    .read(playlistProvider.notifier)
+                    .removeSongFromPlaylist(playlist, song);
+                showUndoSnackBar(
+                  context,
+                  '${song.title} removed from playlist.',
+                  () => ref
+                      .read(playlistProvider.notifier)
+                      .insertSongIntoPlaylist(playlist, index, song),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
